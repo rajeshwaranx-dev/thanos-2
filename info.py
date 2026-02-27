@@ -42,12 +42,16 @@ IS_VERIFY = is_enabled('IS_VERIFY', True)
 LOG_VR_CHANNEL = int(environ.get('LOG_VR_CHANNEL', '-1003002276622'))
 TUTORIAL = environ.get("TUTORIAL", "https://t.me/+XoRFN_-iyOczNTE9")
 TUTORIAL2 = environ.get("TUTORIAL2", "https://t.me/+XoRFN_-iyOczNTE9")
+TUTORIAL3 = environ.get("TUTORIAL3", "https://t.me/+XoRFN_-iyOczNTE9")
 VERIFY_IMG = environ.get("VERIFY_IMG", "https://graph.org/file/45a270fc6a0a1c183c614.jpg")
 SHORTENER_API = environ.get("SHORTENER_API", "ac7dd6953898915c0e91f1c92c4427af6cac20ad")
 SHORTENER_WEBSITE = environ.get("SHORTENER_WEBSITE", "arolinks.com")
 SHORTENER_API2 = environ.get("SHORTENER_API2", "ac7dd6953898915c0e91f1c92c4427af6cac20ad")
 SHORTENER_WEBSITE2 = environ.get("SHORTENER_WEBSITE2", "arolinks.com")
 TWO_VERIFY_GAP = int(environ.get('TWO_VERIFY_GAP', "43200"))
+SHORTENER_API3 = environ.get("SHORTENER_API3", "5d9250c00801b067d7f83bfe54c4fba484505447")
+SHORTENER_WEBSITE3 = environ.get("SHORTENER_WEBSITE3", "krownlinks.com")
+THREE_VERIFY_GAP = int(environ.get('THREE_VERIFY_GAP', "36000"))
 
 
 
