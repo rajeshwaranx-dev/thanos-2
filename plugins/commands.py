@@ -127,30 +127,36 @@ async def start(client:Client, message):
     id = settings.get('fsub_id', AUTH_CHANNEL)
     channel = int(id)
     if settings.get('fsub_id', AUTH_CHANNEL) and not await db.find_join_req(message.from_user.id) and not await is_subscribed(client, message.from_user.id, channel):
-        # ── FSub Join Button ────────────────────────────────────────────────
-        # Use the stored fixed invite link (set via /setfsublink) if available.
-        # This fixed link must have "Approve New Members" (Request to Join) enabled.
-        # Falls back to FSUB_LINK from info.py, then generates a fresh link only
-        # as a last resort (fresh links won't have Request to Join enabled).
+        # ── Resolve join URL safely ──────────────────────────────────────
+        join_url = None
         stored_fsub_link = settings.get('fsub_link', '')
         if stored_fsub_link:
             join_url = stored_fsub_link
         elif FSUB_LINK:
             join_url = FSUB_LINK
         else:
-            # Last resort fallback — generates new link without Request to Join
-            generated = await client.create_chat_invite_link(channel)
-            join_url = generated.invite_link
-
-        btn = [[
-            InlineKeyboardButton("⛔️ ᴊᴏɪɴ ɴᴏᴡ ⛔️", url=join_url)
-        ]]
+            try:
+                generated = await client.create_chat_invite_link(channel)
+                join_url = generated.invite_link
+            except Exception:
+                pass
+        if not join_url:
+            try:
+                chat_info = await client.get_chat(channel)
+                if chat_info.username:
+                    join_url = f"https://t.me/{chat_info.username}"
+            except Exception:
+                pass
+        # ─────────────────────────────────────────────────────────────────
+        btn = []
+        if join_url:
+            btn.append([InlineKeyboardButton("⛔️ ᴊᴏɪɴ ɴᴏᴡ ⛔️", url=join_url)])
         if message.command[1] != "subscribe":
             btn.append([InlineKeyboardButton("♻️ ᴛʀʏ ᴀɢᴀɪɴ ♻️", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
         await client.send_message(
             chat_id=message.from_user.id,
             text=script.FSUB_TXT.format(message.from_user.mention),
-            reply_markup=InlineKeyboardMarkup(btn),
+            reply_markup=InlineKeyboardMarkup(btn) if btn else None,
             parse_mode=enums.ParseMode.HTML
         )
         return
