@@ -11,7 +11,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details
 from database.users_chats_db import db
 from info import ADMINS, THREE_VERIFY_GAP, LOG_CHANNEL, USERNAME, VERIFY_IMG, IS_VERIFY, AUTH_CHANNEL, FSUB_LINK, SHORTENER_WEBSITE, SHORTENER_API, SHORTENER_WEBSITE2, SHORTENER_API2, SHORTENER_API3, SHORTENER_WEBSITE3, LOG_API_CHANNEL, TWO_VERIFY_GAP, TUTORIAL, TUTORIAL2, TUTORIAL3, QR_CODE, DELETE_TIME
-from utils import get_settings, save_group_settings, is_subscribed, get_size, get_shortlink, is_check_admin, get_status, temp, get_readable_time
+from utils import get_settings, save_group_settings, is_subscribed, is_req_subscribed, get_size, get_shortlink, is_check_admin, get_status, temp, get_readable_time
 import re
 import base64
 
@@ -126,7 +126,7 @@ async def start(client:Client, message):
     settings = await get_settings(int(data.split("_", 2)[1]))
     id = settings.get('fsub_id', AUTH_CHANNEL)
     channel = int(id)
-    if settings.get('fsub_id', AUTH_CHANNEL) and not await db.find_join_req(message.from_user.id) and not await is_subscribed(client, message.from_user.id, channel):
+    if settings.get('fsub_id', AUTH_CHANNEL) and not await is_req_subscribed(client, message):
         # ── Resolve join URL safely ──────────────────────────────────────
         join_url = None
         stored_fsub_link = settings.get('fsub_link', '')
