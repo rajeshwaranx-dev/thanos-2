@@ -22,6 +22,27 @@ FILES_ID = {}
 CAP = {}
 
 
+async def _get_fsub_join_url(client):
+    """Helper to resolve the FSub join URL safely."""
+    join_url = None
+    settings = await db.get_settings(0)
+    join_url = settings.get('fsub_link', '') or FSUB_LINK
+    if not join_url:
+        try:
+            generated = await client.create_chat_invite_link(AUTH_CHANNEL)
+            join_url = generated.invite_link
+        except Exception:
+            pass
+    if not join_url:
+        try:
+            chat_info = await client.get_chat(AUTH_CHANNEL)
+            if chat_info.username:
+                join_url = f"https://t.me/{chat_info.username}"
+        except Exception:
+            pass
+    return join_url
+
+
 @Client.on_message(filters.private & filters.text & filters.incoming)
 async def pm_search(client, message):
     if PM_SEARCH:
@@ -29,24 +50,14 @@ async def pm_search(client, message):
         if AUTH_CHANNEL:
             is_subbed = await is_req_subscribed(client, message)
             if not is_subbed:
-                join_url = None
-                settings = await db.get_settings(0)
-                join_url = settings.get('fsub_link', '') or FSUB_LINK
-                if not join_url:
-                    try:
-                        generated = await client.create_chat_invite_link(AUTH_CHANNEL)
-                        join_url = generated.invite_link
-                    except Exception:
-                        try:
-                            chat_info = await client.get_chat(AUTH_CHANNEL)
-                            if chat_info.username:
-                                join_url = f"https://t.me/{chat_info.username}"
-                        except Exception:
-                            pass
-                btn = [[InlineKeyboardButton("⛔️ ᴊᴏɪɴ ɴᴏᴡ ⛔️", url=join_url)]] if join_url else []
+                join_url = await _get_fsub_join_url(client)
+                btn = []
+                if join_url:
+                    btn.append([InlineKeyboardButton("⛔️ ᴊᴏɪɴ ɴᴏᴡ ⛔️", url=join_url)])
+                btn.append([InlineKeyboardButton("♻️ ᴛʀʏ ᴀɢᴀɪɴ ♻️", callback_data="pm_checksub")])
                 await message.reply_text(
                     text=script.FSUB_TXT.format(message.from_user.mention),
-                    reply_markup=InlineKeyboardMarkup(btn) if btn else None,
+                    reply_markup=InlineKeyboardMarkup(btn),
                     parse_mode=enums.ParseMode.HTML
                 )
                 return
@@ -54,6 +65,37 @@ async def pm_search(client, message):
         await auto_filter(client, message)
     else:
         await message.reply_text("⚠️ ꜱᴏʀʀʏ ɪ ᴄᴀɴ'ᴛ ᴡᴏʀᴋ ɪɴ ᴘᴍ")
+
+
+@Client.on_callback_query(filters.regex(r"^pm_checksub$") & filters.private)
+async def pm_checksub_handler(client, query):
+    """
+    Try Again button handler for PM FSub check.
+    Re-checks if the user has joined. If yes — tells them to search.
+    If no — resends the FSub message with buttons again.
+    """
+    is_subbed = await is_req_subscribed(client, query)
+    if is_subbed:
+        await query.answer("✅ ᴠᴇʀɪꜰɪᴇᴅ! ɴᴏᴡ sᴇᴀʀᴄʜ ʏᴏᴜʀ ᴍᴏᴠɪᴇ 🎬", show_alert=True)
+        try:
+            await query.message.delete()
+        except Exception:
+            pass
+    else:
+        await query.answer("❌ ʏᴏᴜ ʜᴀᴠᴇɴ'ᴛ ᴊᴏɪɴᴇᴅ ʏᴇᴛ!", show_alert=True)
+        join_url = await _get_fsub_join_url(client)
+        btn = []
+        if join_url:
+            btn.append([InlineKeyboardButton("⛔️ ᴊᴏɪɴ ɴᴏᴡ ⛔️", url=join_url)])
+        btn.append([InlineKeyboardButton("♻️ ᴛʀʏ ᴀɢᴀɪɴ ♻️", callback_data="pm_checksub")])
+        try:
+            await query.message.edit_text(
+                text=script.FSUB_TXT.format(query.from_user.mention),
+                reply_markup=InlineKeyboardMarkup(btn),
+                parse_mode=enums.ParseMode.HTML
+            )
+        except Exception:
+            pass
     
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def group_search(client, message):
