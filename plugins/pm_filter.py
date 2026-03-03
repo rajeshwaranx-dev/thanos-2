@@ -9,7 +9,7 @@ from info import MAX_BTN, BIN_CHANNEL, USERNAME, URL, IS_VERIFY, LANGUAGES, AUTH
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, WebAppInfo 
 from pyrogram import Client, filters, enums
 from pyrogram.errors import MessageNotModified
-from utils import temp, get_settings, is_check_admin, get_status, get_hash, get_name, get_size, save_group_settings, get_poster, get_status, get_readable_time, get_shortlink, is_req_subscribed, imdb
+from utils import temp, get_settings, is_check_admin, get_status, get_hash, get_name, get_size, save_group_settings, get_poster, get_readable_time, get_shortlink, is_req_subscribed, imdb
 from database.users_chats_db import db
 from database.ia_filterdb import Media, get_search_results, get_bad_files, get_file_details
 
@@ -172,7 +172,6 @@ async def next_page(bot, query):
     temp.FILES_ID[key] = files
     grp_id = query.message.chat.id
     settings = await get_settings(query.message.chat.id)
-    reqnxt  = query.from_user.id if query.from_user else 0
     temp.CHAT[query.from_user.id] = query.message.chat.id
     del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else ''
     links = ""
@@ -268,7 +267,6 @@ async def lang_search(client: Client, query: CallbackQuery):
         await query.answer(f"sᴏʀʀʏ '{lang.title()}' ʟᴀɴɢᴜᴀɢᴇ ꜰɪʟᴇs ɴᴏᴛ ꜰᴏᴜɴᴅ 😕", show_alert=1)
         return
     temp.FILES_ID[key] = files
-    reqnxt = query.from_user.id if query.from_user else 0
     settings = await get_settings(query.message.chat.id)
     group_id = query.message.chat.id
     del_msg = f"\n\n<b>⚠️ ᴛʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴀᴜᴛᴏ ᴅᴇʟᴇᴛᴇ ᴀꜰᴛᴇʀ <code>{get_readable_time(DELETE_TIME)}</code> ᴛᴏ ᴀᴠᴏɪᴅ ᴄᴏᴘʏʀɪɢʜᴛ ɪssᴜᴇs</b>" if settings["auto_delete"] else ''
@@ -279,7 +277,7 @@ async def lang_search(client: Client, query: CallbackQuery):
             links += f"""<b>\n\n{file_num}. <a href=https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@') and not x.startswith('www.'), file.file_name.split()))}</a></b>"""
     else:
         btn = [[
-                InlineKeyboardButton(text=f"🔗 {get_size(file.file_size)}≽ {get_name(file.file_name)}", callback_data=f'files#{reqnxt}#{file.file_id}'),]
+                InlineKeyboardButton(text=f"🔗 {get_size(file.file_size)}≽ {get_name(file.file_name)}", url=f'https://telegram.dog/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}'),]
                    for file in files
               ]
     if not settings["is_verify"]:
@@ -332,7 +330,7 @@ async def lang_next_page(bot, query):
             links += f"""<b>\n\n{file_num}. <a href=https://t.me/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}>[{get_size(file.file_size)}] {' '.join(filter(lambda x: not x.startswith('[') and not x.startswith('@') and not x.startswith('www.'), file.file_name.split()))}</a></b>"""
     else:
         btn = [[
-            InlineKeyboardButton(text=f"🔗 {get_size(file.file_size)}≽ {get_name(file.file_name)}", callback_data=f'file#{file.file_id}')
+            InlineKeyboardButton(text=f"🔗 {get_size(file.file_size)}≽ {get_name(file.file_name)}", url=f'https://telegram.dog/{temp.U_NAME}?start=file_{query.message.chat.id}_{file.file_id}')
         ]
             for file in files
         ]
@@ -471,26 +469,24 @@ async def cb_handler(client: Client, query: CallbackQuery):
         _, lang = query.data.split("#")
         await query.answer(f"ʏᴏᴜ sᴇʟᴇᴄᴛᴇᴅ {lang.title()} ʟᴀɴɢᴜᴀɢᴇ ⚡️", show_alert=True)
   
-   elif query.data == "start":
-    buttons = [[
-        InlineKeyboardButton('⇆ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ⇆', url=f'http://t.me/{temp.U_NAME}?startgroup=start')
-    ],[
-         InlineKeyboardButton('🚫 Want your own Bot? 🚫', callback_data='earn')
-    ],[
-        InlineKeyboardButton('⚙ ꜰᴇᴀᴛᴜʀᴇs', callback_data='features'),
-        InlineKeyboardButton('💸 ᴘʀᴇᴍɪᴜᴍ', callback_data='buy_premium')
-       
-    ]]
-    reply_markup = InlineKeyboardMarkup(buttons)
-    try:
-        await query.message.edit_text(
-            text=script.START_TXT.format(query.from_user.mention, get_status(), query.from_user.id),
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    except Exception:
-        pass
-        )      
+    elif query.data == "start":
+        buttons = [[
+            InlineKeyboardButton('⇆ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ⇆', url=f'http://t.me/{temp.U_NAME}?startgroup=start')
+        ],[
+            InlineKeyboardButton('🚫 Want your own Bot? 🚫', callback_data='earn')
+        ],[
+            InlineKeyboardButton('⚙ ꜰᴇᴀᴛᴜʀᴇs', callback_data='features'),
+            InlineKeyboardButton('💸 ᴘʀᴇᴍɪᴜᴍ', callback_data='buy_premium')
+        ]]
+        reply_markup = InlineKeyboardMarkup(buttons)
+        try:
+            await query.message.edit_text(
+                text=script.START_TXT.format(query.from_user.mention, get_status(), query.from_user.id),
+                reply_markup=reply_markup,
+                parse_mode=enums.ParseMode.HTML
+            )
+        except Exception:
+            pass
     elif query.data == "features":
         buttons = [[
             InlineKeyboardButton('📸 ɪᴍᴀɢᴇ', callback_data='rahul'),
