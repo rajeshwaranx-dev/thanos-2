@@ -471,20 +471,25 @@ async def cb_handler(client: Client, query: CallbackQuery):
         _, lang = query.data.split("#")
         await query.answer(f"ʏᴏᴜ sᴇʟᴇᴄᴛᴇᴅ {lang.title()} ʟᴀɴɢᴜᴀɢᴇ ⚡️", show_alert=True)
   
-    elif query.data == "start":
-        buttons = [[
-            InlineKeyboardButton('⇆ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ⇆', url=f'http://t.me/{temp.U_NAME}?startgroup=start')
-        ],[
-            InlineKeyboardButton('⚙ ꜰᴇᴀᴛᴜʀᴇs', callback_data='features'),
-            InlineKeyboardButton('💸 ᴘʀᴇᴍɪᴜᴍ', callback_data='buy_premium')
-        ],[
-            InlineKeyboardButton('🚫 ᴇᴀʀɴ ᴍᴏɴᴇʏ ᴡɪᴛʜ ʙᴏᴛ 🚫', callback_data='earn')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
+   elif query.data == "start":
+    buttons = [[
+        InlineKeyboardButton('⇆ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ⇆', url=f'http://t.me/{temp.U_NAME}?startgroup=start')
+    ],[
+         InlineKeyboardButton('🚫 Want your own Bot? 🚫', callback_data='earn')
+    ],[
+        InlineKeyboardButton('⚙ ꜰᴇᴀᴛᴜʀᴇs', callback_data='features'),
+        InlineKeyboardButton('💸 ᴘʀᴇᴍɪᴜᴍ', callback_data='buy_premium')
+       
+    ]]
+    reply_markup = InlineKeyboardMarkup(buttons)
+    try:
         await query.message.edit_text(
             text=script.START_TXT.format(query.from_user.mention, get_status(), query.from_user.id),
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
+        )
+    except Exception:
+        pass
         )      
     elif query.data == "features":
         buttons = [[
