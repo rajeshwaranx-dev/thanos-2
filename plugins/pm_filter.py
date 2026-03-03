@@ -43,7 +43,7 @@ async def _get_fsub_join_url(client):
     return join_url
 
 
-@Client.on_message(filters.private & filters.text & filters.incoming)
+@Client.on_message(filters.private & filters.text & filters.incoming & ~filters.regex(r"^/"))
 async def pm_search(client, message):
     if PM_SEARCH:
         # ── FSub check for PM search ─────────────────────────────────────
