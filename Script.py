@@ -8,7 +8,25 @@ class script(object):
 
 ʏᴏᴜʀ ɪᴅ -<code> {}</code></i></b>"""
     
-    HELP_TXT = """<b><i>ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴇʟᴏᴡ ʙᴜᴛᴛᴏɴꜱ ᴛᴏ ɢᴇᴛ ᴅᴏᴄᴜᴍᴇɴᴛᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ꜱᴘᴇᴄɪꜰɪᴄ ᴍᴏᴅᴜʟᴇꜱ..</i></b>"""
+    HELP_TXT = """<b><i>🎬 Movie Bot Features
+
+🔎 Instant Movie Search
+Just send the movie name to get results immediately.
+
+🎥 Multiple Qualities
+Available in 480p | 720p | 1080p (based on upload).
+
+📅 Year-Based Accuracy
+Search with year for better matching.
+
+🔥 Latest Releases
+New Released Movies Uploaded Within Minutes.
+
+📦 One-Click Access
+Tap the button → Receive file in private chat.
+
+⚡ Fast & Automatic
+No waiting. No manual reply. Fully automated.</i></b>"""
     
     CODEXBOTS = """<b><i>/upload - sᴇɴᴅ ᴍᴇ ᴘɪᴄᴛᴜʀᴇ ᴏʀ ᴠɪᴅᴇᴏ ᴜɴᴅᴇʀ (5ᴍʙ)
 
