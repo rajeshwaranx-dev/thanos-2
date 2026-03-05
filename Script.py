@@ -7,7 +7,7 @@ class script(object):
 
 🔎 How To Search?
 
-• Send exact movie name
+• Send exact movie name ( Check <a href='www.google.com'>👉 Google</a> )
 • Add year for better results
 
 Example:
