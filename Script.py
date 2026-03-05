@@ -9,12 +9,9 @@ class script(object):
 
 • Send exact movie name
 • Add year for better results
-• Avoid emojis while searching
 
 Example:
 Jailer 2023 ...
-
-ᴊᴜꜱᴛ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ᴇɴᴊᴏʏ...
 
 ʏᴏᴜʀ ɪᴅ -<code> {}</code></i></b>"""
     
