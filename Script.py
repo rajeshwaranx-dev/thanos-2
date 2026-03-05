@@ -3,14 +3,12 @@ class script(object):
     
     START_TXT = """<b><i>ʜʏ {} {},
     
-ɪ ᴄᴀɴ ᴘʀᴏᴠɪᴅᴇ ᴍᴏᴠɪᴇs ᴀɴᴅ sᴇʀɪᴇs ɪɴ ɢʀᴏᴜᴘꜱ ᴀɴᴅ ʙᴏᴛ ᴘᴍ!
+ɪ ᴘʀᴏᴠɪᴅᴇ ᴍᴏᴠɪᴇs & sᴇʀɪᴇs ɪɴ ɢʀᴏᴜᴘꜱ ᴀɴᴅ ʙᴏᴛ ᴘᴍ!
 
-🔎 How To Search?
-• Send exact movie name
-• Add year for better results
+🔎 sᴇɴᴅ ᴇxᴀᴄᴛ ᴍᴏᴠɪᴇ ɴᴀᴍᴇ
+• ᴀᴅᴅ ʏᴇᴀʀ ꜰᴏʀ ʙᴇᴛᴛᴇʀ ʀᴇsᴜʟᴛs
 
-Example:
-Jailer 2023 ...
+Example: Jailer 2023
 
 ʏᴏᴜʀ ɪᴅ -<code> {}</code></i></b>"""
     
