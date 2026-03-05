@@ -10,22 +10,22 @@ class script(object):
     
     HELP_TXT = """<b><i><b><blockquote>🎬 Movie Bot Features</blockquote></b>
 
-🔎 Instant Movie Search
+🔎 <b>Instant Movie Search</b>
 Just send the movie name to get results immediately.
 
-🎥 Multiple Qualities
+🎥 <b>Multiple Qualities</b>
 Available in 480p | 720p | 1080p (based on upload).
 
-📅 Year-Based Accuracy
+📅 <b>Year-Based Accuracy</b>
 Search with year for better matching.
 
-🔥 Latest Releases
+🔥 <b>Latest Releases</b>
 New Released Movies Uploaded Within Minutes.
 
-📦 One-Click Access
+📦 <b>One-Click Access</b>
 Tap the button → Receive file in private chat.
 
-⚡ Fast & Automatic
+⚡ <b>Fast & Automatic</b>
 No waiting. No manual reply. Fully automated.</i></b>"""
     
     CODEXBOTS = """<b><i>/upload - sᴇɴᴅ ᴍᴇ ᴘɪᴄᴛᴜʀᴇ ᴏʀ ᴠɪᴅᴇᴏ ᴜɴᴅᴇʀ (5ᴍʙ)
