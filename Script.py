@@ -6,8 +6,7 @@ class script(object):
 ɪ ᴄᴀɴ ᴘʀᴏᴠɪᴅᴇ ᴍᴏᴠɪᴇs ᴀɴᴅ sᴇʀɪᴇs ɪɴ ɢʀᴏᴜᴘꜱ ᴀɴᴅ ʙᴏᴛ ᴘᴍ!
 
 🔎 How To Search?
-
-• Send exact movie name ( Check <a href='www.google.com'>👉 Google</a> )
+• Send exact movie name
 • Add year for better results
 
 Example:
