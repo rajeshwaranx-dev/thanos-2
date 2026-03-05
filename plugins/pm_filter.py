@@ -476,7 +476,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton('⇆ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘs ⇆', url=f'http://t.me/{temp.U_NAME}?startgroup=start')
         ],[
             InlineKeyboardButton('⚙ ꜰᴇᴀᴛᴜʀᴇs', callback_data='features'),
-            InlineKeyboardButton('🚫 Want your own Bot? 🚫', callback_data='earn')
+            InlineKeyboardButton('🌐 Our Services', callback_data='earn')
         ],[
             InlineKeyboardButton("Channel 🚀", url=f"https://telegram.me/Askmovies4"),
             InlineKeyboardButton("Group 🔗", url=f"https://telegram.me/Askmovieslink1")
