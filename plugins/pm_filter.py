@@ -529,7 +529,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
 
     elif query.data == "earn":
         buttons = [[
-            InlineKeyboardButton('♻️ ᴄᴜꜱᴛᴏᴍɪᴢᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘ ♻️', callback_data='custom')    
+            InlineKeyboardButton("♻️ ᴄᴜꜱᴛᴏᴍɪᴢᴇ ʏᴏᴜʀ ʙᴏᴛ ♻️", url=f"https://telegram.me/Master_xkid")  
         ], [ 
             InlineKeyboardButton('⋞ ʙᴀᴄᴋ', callback_data='start'),
             InlineKeyboardButton('sᴜᴘᴘᴏʀᴛ', url=USERNAME)
