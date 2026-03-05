@@ -8,7 +8,7 @@ class script(object):
 
 ʏᴏᴜʀ ɪᴅ -<code> {}</code></i></b>"""
     
-    HELP_TXT = """<b><i><blockquote>🎬 Movie Bot Features</blockquote>
+    HELP_TXT = """<b><i><b><blockquote>🎬 Movie Bot Features</blockquote></b>
 
 🔎 Instant Movie Search
 Just send the movie name to get results immediately.
