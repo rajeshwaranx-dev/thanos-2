@@ -45,6 +45,8 @@ async def _get_fsub_join_url(client):
 
 @Client.on_message(filters.private & filters.text & filters.incoming)
 async def pm_search(client, message):
+    if str(message.text).startswith('/'):
+        raise pyrogram.ContinuePropagation
     if PM_SEARCH:
         # ── FSub check for PM search ─────────────────────────────────────
         if AUTH_CHANNEL:
